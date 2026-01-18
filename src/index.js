@@ -8,7 +8,15 @@ import mongoose from "mongoose";
 import {DB_NAME} from './constants.js'
 import connectDB from "./db/index.js";
 
-connectDB();
+connectDB()
+.then(()=>{
+    app.listen(process.env.PORT, ()=>{
+        `server is running on port:`
+    })
+})
+.catch((err)=>{
+    console.log('then error' , err)
+})
 
 
 
