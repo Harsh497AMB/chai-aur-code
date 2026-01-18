@@ -10,7 +10,10 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
-    "git": "^0.1.5"
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "git": "^0.1.5",
+    "mongoose": "^9.1.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
