@@ -2,6 +2,33 @@ import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
 
 
+const connectDB= async ()=>{
+    const connectionInstance= await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
+         console.log(`\nMONGODB CONNECTED!! DB HOST: ${connectionInstance.connection.host}`); 
+}
+export default connectDB;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* const connectDB= async ()=>{
     try {
     const connectionInstance= await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
@@ -12,9 +39,3 @@ import { DB_NAME } from "../constants.js";
         process.exit(1)
     }
 } */
-
-const connectDB= async ()=>{
-    const connectionInstance= await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-         console.log(`\nMONGODB CONNECTED!! DB HOST: ${connectionInstance.connection.host}`); 
-}
-export default connectDB;

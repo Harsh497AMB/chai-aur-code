@@ -1,0 +1,9 @@
+Used to make random tokens
+
+const token = jwt.sign(
+  { userId: user._id },     // payload (info inside token)
+  process.env.JWT_SECRET,   // secret key
+  { expiresIn: "7d" }      // token validity
+);
+
+
