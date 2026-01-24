@@ -1,0 +1,60 @@
+Utils are used make skeletals
+
+
+asyncHandler:
+const asyncHandler = (requestHandler)=>{
+    return async (req , res , next)=>{
+        try {
+            return await requestHandler(req , res , next)
+        } catch (error) {
+            throw error
+        }
+    }
+}
+
+
+
+
+APIerror:
+error is a default class in js
+
+class APIerror extends Error{
+    constructor(
+        //while making object for this class we send this things as a parameter
+        statusCode,
+        message="someting went wrong",
+        errors=[],
+        stack=""
+    ){
+        //These are the propeerties of error
+        super(message)
+        this.statusCode= statusCode
+        this.data=null
+        this.message=message
+        this.success = false
+        this.errors = errors
+
+        if(stack){
+            this.stack= stack
+        } else{
+            Error.captureStackTrace(this, this.constructor)
+        }
+
+    }
+}
+
+
+
+APIResponse:
+class APIResponse{
+    constructor(
+        statsuCode ,
+        data ,
+        message="success"
+    ){
+        this.statsuCode= statsuCode
+        this.data=data
+        this.message=message
+        this.success = statsuCode < 400
+    }
+}

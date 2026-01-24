@@ -1,0 +1,40 @@
+to connect code to MONGODB:
+await mongoose.connect(URL)
+
+as a function:
+const connectDB= async ()=>{
+    const connectionInstance= await mongoose.connect(`URL`)}
+
+export const name = mongoose.model("name", SChema)
+
+
+Creating model/Schema:
+const userSchema =new mongoose.Schema(
+    {
+        name:{
+            p:v,
+            p:v,
+        },
+        name:{
+            p:v,
+            p:v,
+        },
+        name:{
+            p:v,
+            p:v,
+        },
+    },{}
+    )
+
+
+using data from other Schema:
+    type:Schema.Types.ObjectId,
+       ref:"otherSchema"
+
+storing array:
+watchHistory:[
+            {objectSchema}
+    ],
+
+Schema.pre("save" , function)
+schema.methods.name= function

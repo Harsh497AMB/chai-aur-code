@@ -1,5 +1,9 @@
 class APIResponse{
-    constructor(statsuCode  ,data , message="success"){
+    constructor(
+        statsuCode ,
+        data ,
+        message="success"
+    ){
         this.statsuCode= statsuCode
         this.data=data
         this.message=message

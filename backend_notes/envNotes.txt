@@ -1,0 +1,6 @@
+for storing sensitive info.
+should not be pushed on git
+
+access env vars:
+process.env.VARIABLE
+

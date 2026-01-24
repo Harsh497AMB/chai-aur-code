@@ -1,0 +1,9 @@
+step1:- get data from user from frontend(user fullname avatar coverimage password)
+step2:-validate datas - not empty
+step3:-check if user already exists(username or email)
+step4:-check for images(avatar)
+step5:-upload them to cloudinary , avatar
+step6:-create user object - create entry db 
+step7:-remove password and refresh token field from response
+step8:-check for user creation
+step9:-return response 
