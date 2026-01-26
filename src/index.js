@@ -12,7 +12,7 @@ import {app} from "./app.js"
 connectDB()//connectDB returns promise
 .then(()=>{
     app.listen(process.env.PORT, ()=>{
-        `server is running on port: ${process.env.PORT}`
+        console.log(`server is running on port: ${process.env.PORT}`);  
     })
 })
 .catch((err)=>{
