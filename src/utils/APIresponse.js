@@ -10,3 +10,5 @@ class APIResponse{
         this.success = statsuCode < 400
     }
 }
+
+export {APIResponse}

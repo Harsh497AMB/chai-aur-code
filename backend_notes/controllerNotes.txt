@@ -1,0 +1,27 @@
+////////  REGISTER USER  /////////
+// get data from user from frontend(user fullname avatar coverimage password)
+//validate datas - not empty
+//check if user already exists(username or email)
+//check for images(avatar)
+//upload them to cloudinary , avatar
+//create user object - create entry db 
+//remove password and refresh token field from response
+//check for user creation
+//return response 
+
+
+///////  LOGIN  //////
+//req.body
+//username or email
+//find the user
+//check password
+//acess and refresh token
+//send cokkie
+//success LOGIN
+
+
+//////  LOGOUT  /////
+//LOGOUT button press
+//clear cookies
+//check for access and refresh token
+//remove acess and refresh token

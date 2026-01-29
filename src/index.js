@@ -4,6 +4,7 @@ dotenv.config({ path: "./.env" });
 console.log("URI:", process.env.MONGODB_URI);
 
 
+
 // import mongoose from "mongoose";
 import {DB_NAME} from './constants.js'
 import connectDB from "./db/index.js";
