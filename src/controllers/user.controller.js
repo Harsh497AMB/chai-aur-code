@@ -3,6 +3,7 @@ import { APIerror } from "../utils/APIerror.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { APIResponse } from "../utils/APIresponse.js";
+import jwt from "jsonwebtoken"
 
 
 const generateAccessTokensAndAccessTokens = async(userId)=>{
@@ -116,13 +117,15 @@ console.log("User registered successfully!!")
 
 //LOGIN?//////-
 const loginuser = asyncHandler(async(req,res)=>{
-
+  console.log("login stated")
   //get data from user
-  const {email , username , password}= req.body
+  const {email , username , password}= req.body;
+  console.log("user input taken")
 //checking if email or user is empty or not
   if (!username && !email){
     throw new APIerror(400 , "username or email required")
   }
+  console.log("username|| email not empty");
 //finding if usernname or email exist or not
   const searchedUser = await User.findOne({
   $or:[{username},{email}]
@@ -131,16 +134,20 @@ const loginuser = asyncHandler(async(req,res)=>{
 if (!searchedUser) {
   throw new APIerror(400 , "user not found")
 }
+console.log("user found in database")
 //check if password is corret
 const isPasswordValid = await searchedUser.isPasswordCorrect(password)
 //if password incorect throw errror
 if (!isPasswordValid) {
   throw new APIerror(400 , "galat password he")
 }
+console.log("password is correct")
 //generating refresh and access token
 const {refreshToken , accessToken} = await generateAccessTokensAndAccessTokens(searchedUser._id)
+console.log("tokens generated")
 
-const loggedInUser = await searchedUser.findById(searchedUser._id).select("-password -refreshToken")
+const loggedInUser = await User.findById(searchedUser._id).select("-password -refreshToken")
+console.log("logged in user data fetched")
 //random
 const options ={
   http:true,
@@ -160,11 +167,14 @@ return res
     "user loggedIn succcessfully"
   )
 )
+
+console.log("login process completed");
 })
 
 
 ///////LOGOUT???////
 const logoutUser = asyncHandler(async(req,res)=>{
+  console.log("logout started")
   await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -188,8 +198,54 @@ const logoutUser = asyncHandler(async(req,res)=>{
   .json(new APIResponse(200 , {} , "User logged out"))
 })
 
+const refreshAccessToken = asyncHandler(async(req,res)=>{
+  const incomingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken
+
+  if (!incomingRefreshToken) {
+    throw new APIerror(401 , "unauthorized request")
+  }
+
+  try {
+    const decodedToken = jwt.verify(incomingRefreshToken , process.env.REFRESH_TOKEN_SECRET)
+  
+    const user = await User.findById(decodedToken?._id)
+  
+    if (!user) {
+      throw new APIerror(401 , "invalid refresh token")
+    }
+  
+  if (incomingRefreshToken!==user?.refreshToken) {
+    throw new APIerror(401 , "refresh token is expired or used")
+  }
+  
+  const options = {
+    httpOnly: true,secure:true
+  }
+  
+  const {refreshToken , accessToken}=  await generateAccessTokensAndAccessTokens(user._id)
+  
+  return res
+  .status(200)
+  .cookie("accessToken", accessToken, options)
+  .cookie("refreshToken", refreshToken, options)
+  .json(
+    new APIResponse(
+      200,
+      {accessToken, refreshToken},
+      "acess token refreshed"
+    )
+  )
+  
+  } catch (error) {
+    throw new APIerror(401 , error?.message)
+  }
+
+
+})
+
 
 export { registerUser ,
   loginuser ,
-  logoutUser
+  logoutUser,
+  refreshAccessToken
 };
