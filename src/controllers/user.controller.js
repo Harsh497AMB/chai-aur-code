@@ -114,7 +114,7 @@ console.log("User registered successfully!!")
 });
 
 
-//LOGIN?//////
+//LOGIN?//////-
 const loginuser = asyncHandler(async(req,res)=>{
 
   //get data from user
@@ -165,10 +165,31 @@ return res
 
 ///////LOGOUT???////
 const logoutUser = asyncHandler(async(req,res)=>{
-  
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set:{
+        refreshToken: undefined
+      }
+    },
+    {
+      new: true
+    }
+  )
+  const options ={
+  http:true,
+  secure:true
+}
+
+  return res
+  .status(200)
+  .clearCookie("accessToken" , options)
+  .clearCookie("refreshToken" , options)
+  .json(new APIResponse(200 , {} , "User logged out"))
 })
 
 
 export { registerUser ,
-  loginuser
+  loginuser ,
+  logoutUser
 };
